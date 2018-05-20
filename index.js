@@ -6,8 +6,8 @@ const app = express();
 
 app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }));
 app.use(steam.middleware({
-    realm: 'http://localhost:5000/',
-    verify: 'http://localhost:5000/verify',
+    realm: 'https://cs-go-buff.herokuapp.com',
+    verify: 'https://cs-go-buff.herokuapp.com/verify',
     apiKey: process.env.steamApiKey}
 ));
 
@@ -30,6 +30,5 @@ app.get('/logout', steam.enforceLogin('/'), function(req, res) {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
-console.log("Listening 5000");
 
 
