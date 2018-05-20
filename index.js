@@ -6,8 +6,8 @@ const app = express();
 
 app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }));
 app.use(steam.middleware({
-    realm: 'https://cs-go-buff.herokuapp.com',
-    verify: 'https://cs-go-buff.herokuapp.com/verify',
+    realm: 'https://cs-go-buff-front.herokuapp.com/',
+    verify: 'https://cs-go-buff-front.herokuapp.com//verify',
     apiKey: process.env.steamApiKey}
 ));
 
