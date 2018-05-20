@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-const keys = require('./config/keys');
 const steam = require('steam-login');
 
 const app = express();
@@ -9,7 +8,7 @@ app.use(require('express-session')({ resave: false, saveUninitialized: false, se
 app.use(steam.middleware({
     realm: 'http://localhost:5000/',
     verify: 'http://localhost:5000/verify',
-    apiKey: keys.steamApiKey}
+    apiKey: process.env.steamApiKey}
 ));
 
 app.get('/', function(req, res) {
