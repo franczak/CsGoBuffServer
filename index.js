@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors({credentials: true, origin: 'https://cs-go-buff-front.herokuapp.com/'}));
+app.use(cors({credentials: true, origin: 'https://cs-go-buff-front.herokuapp.com'}));
 app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }));
 app.use(steam.middleware({
     realm: 'https://cs-go-buff.herokuapp.com/',
@@ -16,7 +16,7 @@ app.use(steam.middleware({
 
 app.get('/', function(req, res) {
     req.user?
-        res.redirect('https://cs-go-buff-front.herokuapp.com/')
+        res.redirect('https://cs-go-buff-front.herokuapp.com')
         :
         res.redirect('/auth/steam');
 });
