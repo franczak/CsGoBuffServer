@@ -5,8 +5,8 @@ require('dotenv').config()
 const cors = require('cors');
 const axios = require('axios');
 const app = express();
-const server = 'https://cs-go-buff-front.herokuapp.com'
-const client = 'https://cs-go-buff.herokuapp.com/auth/steam/callback';
+const server = 'https://cs-go-buff.herokuapp.com'
+const client = 'https://cs-go-buff-front.herokuapp.com';
 
 app.use(cors({credentials: true, origin: client}));
 app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }));
