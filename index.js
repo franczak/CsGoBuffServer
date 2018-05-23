@@ -6,7 +6,8 @@ const cors = require('cors');
 const axios = require('axios');
 const app = express();
 const server = 'https://cs-go-buff-front.herokuapp.com'
-const client = 'https://cs-go-buff.herokuapp.com/auth/steam/callback'
+const client = 'https://cs-go-buff.herokuapp.com/auth/steam/callback';
+
 app.use(cors({credentials: true, origin: client}));
 app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }));
 app.use(steam.middleware({
@@ -50,7 +51,7 @@ app.get('/details/:userId', steam.enforceLogin('/'), async (req, res) => {
     res.send(resp.data);
 })
 
-app.get('/stats/:userId', steam.enforceLogin('/', async (req, res) => {
+app.get('/stats/:userId', steam.enforceLogin('/'), async (req, res) => {
     const resp = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=91ED890A9E13A8038F8D7E3DACACCFAA&steamid=${req.params.userId}`)
     res.send(resp.data);
 })
