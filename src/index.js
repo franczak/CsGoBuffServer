@@ -6,6 +6,7 @@ const axios = require('axios')
 const app = express()
 const server = process.env.server
 const client = process.env.client
+const user = require('./routes/user')
 
 app.use(cors({credentials: true, origin: client}))
 app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }))
@@ -13,7 +14,9 @@ app.use(steam.middleware({
   realm: server,
   verify: server + '/auth/steam/callback',
   apiKey: process.env.steamApiKey}
-))
+));
+
+app.use('/user', steam.enforceLogin('/') ,user)
 
 app.get('/', function (req, res) {
   req.user
@@ -46,6 +49,8 @@ app.get('/stats/:userId', steam.enforceLogin('/'), async (req, res) => {
   const resp = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=91ED890A9E13A8038F8D7E3DACACCFAA&steamid=${req.params.userId}`)
   res.send(resp.data)
 })
+
+app.use('/user', steam.enforceLogin('/') ,user);
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
