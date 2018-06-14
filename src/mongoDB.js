@@ -1,16 +1,23 @@
-const MongoClient = require('mongodb').MongoClient;
-require('dotenv').config();
+const MongoClient = require('mongodb').MongoClient
+require('dotenv').config()
 
-const MONGO_URL = process.env.database;
+const MONGO_URL = process.env.database
 
-let _db;
+let _db
 
-MongoClient.connect(MONGO_URL, (err, db) => {
-  if (err){
-    return console.log(err);
-  } else {
-    _db = db
+const connectDB = async (callback) => {
+  try {
+    MongoClient.connect(uri, (err, db) => {
+      _db = db
+      return callback(err)
+    })
+  } catch (e) {
+    throw e
   }
-});
+}
 
-module.exports = _db;
+const getDB = () => _db
+
+const disconnectDB = () => _db.close()
+
+module.exports = { connectDB, getDB, disconnectDB }
