@@ -7,7 +7,7 @@ const app = express()
 const server = process.env.server
 const client = process.env.client
 const user = require('./routes/user')
-require('./mongoDB').connectDB().then(() => {
+require('./mongoDB').connectDB(console.log).then(() => {
   app.use(cors({credentials: true, origin: client}))
   app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }))
   app.use(steam.middleware({
