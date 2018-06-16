@@ -7,7 +7,12 @@ router.get('/', (req, res) => {
 })
 
 router.get('/friends', (req, res) => {
-  res.send('YOUR friends XD')
+  /*const collection = db.collection('users')
+  const user1 = {'name': 'Janusz'}
+  collection.insert(user1);
+
+  res.send('Added Janusz')*/
+
 })
 
 router.get('/maps', (req, res) => {

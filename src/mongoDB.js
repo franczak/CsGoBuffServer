@@ -3,7 +3,7 @@ require('dotenv').config()
 
 const MONGO_URL = process.env.database
 
-let _db
+let _db;
 
 const connectDB = async (callback) => {
   try {
@@ -12,6 +12,7 @@ const connectDB = async (callback) => {
       return callback(_db)
     })
   } catch (e) {
+    console.log(e)
     throw e
   }
 }
