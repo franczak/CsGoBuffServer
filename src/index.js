@@ -33,7 +33,6 @@ require('./mongoDB').connectDB(console.log).then(() => {
   })
 
   app.get('/user', function (req, res) {
-    res.send(req.user)
   })
 
   app.get('/logout', steam.enforceLogin('/'), function (req, res) {

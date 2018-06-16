@@ -7,16 +7,20 @@ router.get('/', (req, res) => {
 })
 
 router.get('/friends', (req, res) => {
-  const collection = db().collection("users");
-  const user1 = {'name': 'Janusz'}
-  collection.insertOne(user1, function (err, res){
-    if(err) throw err;
-    console.log("1 user added")
-  })
+  res.send('YOUR friends XD')
 })
 
 router.get('/maps', (req, res) => {
   res.send('YOUR maps XD')
+})
+
+router.get('/add', (req,res) =>{
+  const collection = db().collection("users");
+  const user1 = {'userid': req.userid}
+  collection.insertOne(user1, function (err, res){
+    if(err) throw err;
+    console.log("1 user added")
+  })
 })
 
 module.exports = router
