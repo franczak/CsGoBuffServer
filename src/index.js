@@ -2,12 +2,12 @@ const express = require('express')
 const steam = require('steam-login')
 require('dotenv').config()
 const cors = require('cors')
-const axios = require('axios')
 const app = express()
 const server = process.env.server
 const client = process.env.client
 const user = require('./routes/user')
-require('./mongoDB').connectDB().then(() => {
+const steamRouter = require('./routes/steam')
+require('./mongoDB').connectDB(() => {}).then(() => {
   app.use(cors({credentials: true, origin: client}))
   app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }))
   app.use(steam.middleware({
@@ -17,6 +17,7 @@ require('./mongoDB').connectDB().then(() => {
   ))
 
   app.use('/user', steam.enforceLogin('/'), user)
+  app.use('/steam', steam.enforceLogin('/'), steamRouter)
 
   app.get('/', function (req, res) {
     req.user
@@ -32,25 +33,10 @@ require('./mongoDB').connectDB().then(() => {
     res.redirect('/')
   })
 
-  app.get('/user', function (req, res) {
-    res.send(req.user)
-  })
-
   app.get('/logout', steam.enforceLogin('/'), function (req, res) {
     req.logout()
     res.redirect('/')
   })
-  app.get('/details/:userId', steam.enforceLogin('/'), async (req, res) => {
-    const resp = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=91ED890A9E13A8038F8D7E3DACACCFAA&steamids=${req.params.userId}`)
-    res.send(resp.data)
-  })
-
-  app.get('/stats/:userId', steam.enforceLogin('/'), async (req, res) => {
-    const resp = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=91ED890A9E13A8038F8D7E3DACACCFAA&steamid=${req.params.userId}`)
-    res.send(resp.data)
-  })
-
-  app.use('/user', steam.enforceLogin('/'), user)
 
   const PORT = process.env.PORT || 5000
   app.listen(PORT)

@@ -53,5 +53,5 @@ fabric.properties
 .idea/httpRequests
 
 .env
-node_modules
-.idea
+node_modules/
+.idea/

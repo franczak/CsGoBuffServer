@@ -7,9 +7,9 @@ let _db;
 
 const connectDB = async (callback) => {
   try {
-    MongoClient.connect(uri, (err, db) => {
-      _db = db
-      return callback(err)
+    MongoClient.connect(MONGO_URL, (err, db) => {
+      _db = db.db('csgobuff')
+      return callback(_db)
     })
   } catch (e) {
     console.log(e)
