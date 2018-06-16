@@ -32,9 +32,6 @@ require('./mongoDB').connectDB(console.log).then(() => {
     res.redirect('/')
   })
 
-  app.get('/user', function (req, res) {
-  })
-
   app.get('/logout', steam.enforceLogin('/'), function (req, res) {
     req.logout()
     res.redirect('/')
@@ -48,8 +45,6 @@ require('./mongoDB').connectDB(console.log).then(() => {
     const resp = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=91ED890A9E13A8038F8D7E3DACACCFAA&steamid=${req.params.userId}`)
     res.send(resp.data)
   })
-
-  app.use('/user', steam.enforceLogin('/'), user)
 
   const PORT = process.env.PORT || 5000
   app.listen(PORT)

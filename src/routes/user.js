@@ -15,12 +15,13 @@ router.get('/maps', (req, res) => {
 })
 
 router.get('/add', (req,res) =>{
-  const collection = db().collection("users");
-  const user1 = {'userid': req.userid}
-  collection.insertOne(user1, function (err, res){
-    if(err) throw err;
-    console.log("1 user added")
-  })
+  console.log("ADD")
+  // const collection = db().collection("users");
+  // const user1 = {'userid': req.userid}
+  // collection.insertOne(user1, function (err, res){
+  //   if(err) throw err;
+  //   console.log("1 user added")
+  // })
 })
 
 module.exports = router
