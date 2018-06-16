@@ -1,5 +1,4 @@
 const MongoClient = require('mongodb').MongoClient
-require('dotenv').config()
 
 const MONGO_URL = process.env.database
 

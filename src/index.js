@@ -7,8 +7,11 @@ const server = process.env.server
 const client = process.env.client
 const user = require('./routes/user')
 const steamRouter = require('./routes/steam')
+var bodyParser = require('body-parser')
+
 require('./mongoDB').connectDB(() => {}).then(() => {
   app.use(cors({credentials: true, origin: client}))
+  app.use(bodyParser.json())
   app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }))
   app.use(steam.middleware({
     realm: server,
