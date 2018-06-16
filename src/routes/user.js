@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../mongoDB').getDB
-const axios = require('axios')
+const helpers = require('./helpers')
 router.get('/', (req, res) => {
   res.send(req.user)
 })
@@ -16,28 +16,22 @@ router.get('/friends', (req, res) => {
 })
 
 router.post('/friend', async (req, res) => {
-  const friends = await axios.get(`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${process.env.steamApiKey}&steamid=${req.user.steamid}&relationship=friend`)
-  const friendId = req.body.steamid
-  const ids = friends.data.friendslist.friends.map(friend => friend.steamid)
   const userID = req.user.steamid
+  const friendId = req.body.steamid
 
-  try {
-    await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=${process.env.steamApiKey}&steamid=${friendId}`)
-    if (!ids.includes(friendId)) {
-      const collection = db().collection('users')
-      try {
-        const dbRes = await collection.findOne({id: userID}, {_id: 1, users: 1})
-        if (!dbRes.users.includes(friendId)) {
-          db.updateOne({_id: dbRes._id}, {$set: {users: dbRes.users.concat([friendId])}})
-        }
-      } catch (e) {
-        await collection.insert({ id: userID, users: [friendId] })
+  helpers.checkIfPaysCS(friendId)
+    .then(async _ => {
+      const ids = await helpers.getFriends(userID)
+      const user = await helpers.getUser(userID)
+      if (!user.users.includes(friendId) && !ids.includes(friendId)) {
+        await helpers.addUser(user, friendId)
       }
-    }
-    res.sendStatus(200)
-  } catch (e) {
-    res.sendStatus(404)
-  }
+      res.sendStatus(200)
+    })
+    .catch(e => {
+      console.log(e)
+      res.sendStatus(404)
+    })
 })
 
 router.get('/maps', (req, res) => {
