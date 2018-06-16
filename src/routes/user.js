@@ -1,13 +1,25 @@
 const express = require('express')
 const router = express.Router()
+<<<<<<< HEAD
 const db = require('../mongoDB').getDB
+=======
+const db = require('../mongoDB')
+>>>>>>> 1aa21ae8866483412f8e203fb1d6b5cc4a4029e1
 
 router.get('/', (req, res) => {
   res.send('default')
 })
 
 router.get('/friends', (req, res) => {
+<<<<<<< HEAD
   res.send('YOUR friends XD')
+=======
+  const collection = db.collection('users')
+  const user1 = {'name': 'Janusz'}
+  collection.insert(user1);
+
+  res.send('Added Janusz')
+>>>>>>> 1aa21ae8866483412f8e203fb1d6b5cc4a4029e1
 })
 
 router.get('/maps', (req, res) => {
