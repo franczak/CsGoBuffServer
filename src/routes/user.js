@@ -1,18 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const db = require('../mongoDB').getDB
 const helpers = require('./helpers')
 router.get('/', (req, res) => {
   res.send(req.user)
 })
 
-router.get('/friends', (req, res) => {
-  /* const collection = db.collection('users')
-  const user1 = {'name': 'Janusz'}
-  collection.insert(user1);
-
-  res.send('Added Janusz') */
-
+router.get('/friends', async (req, res) => {
+  const friends = await helpers.getDbFriends(req.user.steamid)
+  res.send(friends)
 })
 
 router.post('/friend', async (req, res) => {

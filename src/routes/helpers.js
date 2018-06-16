@@ -29,5 +29,13 @@ module.exports = {
   addUser: async (user, friendId) => {
     const collection = db().collection('users')
     return collection.updateOne({_id: user._id}, {$set: {users: user.users.concat([friendId])}})
+  },
+  getDbFriends: async (id) => {
+    const collection = db().collection('users')
+    let user = await collection.findOne({id})
+    if (user === null) {
+      return []
+    }
+    return user.users
   }
 }
