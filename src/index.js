@@ -38,7 +38,7 @@ require('./mongoDB').connectDB(() => {}).then(() => {
 
   app.get('/logout', steam.enforceLogin('/'), function (req, res) {
     req.logout()
-    res.redirect('/')
+    res.sendStatus(200)
   })
 
   const PORT = process.env.PORT || 5000
