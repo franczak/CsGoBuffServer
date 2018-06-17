@@ -22,7 +22,7 @@ router.get('/stats/:userId', async (req, res) => {
 
 router.get('/friends', async (req, res) => {
   const resp = await axios.get(`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${process.env.steamApiKey}&steamid=${req.user.steamid}&relationship=friend`)
-  res.send(resp.data)
+  res.send(resp.data.friendslist.friends)
 })
 
 module.exports = router
