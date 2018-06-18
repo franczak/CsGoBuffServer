@@ -62,7 +62,7 @@ module.exports = {
     ];
 
     try {
-      let playerDetails = {};
+      let playerDetails = {data:{maps:{}}};
       const resp = await axios.get(`http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=${process.env.steamApiKey}&steamid=${id}`)
       const playerStats = resp.data.playerstats.stats
         .filter(({name}) => neededStats.includes(name))
@@ -72,23 +72,23 @@ module.exports = {
             [nexObj.name]: nexObj.value,
           }
         }, {});
-      playerDetails.kd = (playerStats['total_kills']/playerStats['total_deaths']).toFixed(2);
-      playerDetails.hs = Math.round((playerStats['total_kills_headshot']/playerStats['total_shots_hit'])*100)
-      playerDetails.accuracy = Math.round((playerStats['total_shots_hit']/playerStats['total_shots_fired'])*100)
-      playerDetails.winRatio = Math.round((playerStats['total_matches_won']/playerStats['total_matches_played'])*100)
-      playerDetails.totalKills = playerStats['total_kills'];
-      playerDetails.cabble = playerStats['total_wins_map_de_cbble'];
-      playerDetails.dust2 = playerStats['total_wins_map_de_dust2'];
-      playerDetails.dust = playerStats['total_wins_map_de_dust'];
-      playerDetails.inferno = playerStats['total_wins_map_de_inferno'];
-      playerDetails.nuke = playerStats['total_wins_map_de_nuke'];
-      playerDetails.train = playerStats['total_wins_map_de_train'];
-      playerDetails.ssg08 = playerStats['total_kills_ssg08'];
-      playerDetails.mp7 = playerStats['total_kills_mp7'];
-      playerDetails.m4a1 = playerStats['total_kills_m4a1'];
-      playerDetails.p90 = playerStats['total_kills_p90'];
-      playerDetails.ak47 = playerStats['total_kills_ak47'];
-      playerDetails.awp = playerStats['total_kills_awp'];
+      playerDetails.data.kd = (playerStats['total_kills']/playerStats['total_deaths']).toFixed(2);
+      playerDetails.data.hs = Math.round((playerStats['total_kills_headshot']/playerStats['total_shots_hit'])*100)
+      playerDetails.data.accuracy = Math.round((playerStats['total_shots_hit']/playerStats['total_shots_fired'])*100)
+      playerDetails.data.winRatio = Math.round((playerStats['total_matches_won']/playerStats['total_matches_played'])*100)
+      playerDetails.data.totalKills = playerStats['total_kills'];
+      playerDetails.data.cbble = playerStats['total_wins_map_de_cbble'];
+      playerDetails.data.dust2 = playerStats['total_wins_map_de_dust2'];
+      playerDetails.data.dust = playerStats['total_wins_map_de_dust'];
+      playerDetails.data.inferno = playerStats['total_wins_map_de_inferno'];
+      playerDetails.data.nuke = playerStats['total_wins_map_de_nuke'];
+      playerDetails.data.train = playerStats['total_wins_map_de_train'];
+      playerDetails.data.ssg08 = playerStats['total_kills_ssg08'];
+      playerDetails.data.mp7 = playerStats['total_kills_mp7'];
+      playerDetails.data.m4a1 = playerStats['total_kills_m4a1'];
+      playerDetails.data.p90 = playerStats['total_kills_p90'];
+      playerDetails.data.ak47 = playerStats['total_kills_ak47'];
+      playerDetails.data.awp = playerStats['total_kills_awp'];
       return playerDetails;
 
 
